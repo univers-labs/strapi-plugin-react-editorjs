@@ -50,10 +50,12 @@ const Editor = ({ onChange, name, value }) => {
             }
             document.querySelector('[data-tool="image"]').remove()
           }}
-          onChange={(api, newData) => {
-            if (newData.blocks.length) {
-              onChange({target: {name, value: JSON.stringify(newData)}});
-            }
+          onChange={(api) => {
+			setTimeout(() => {
+				api.saver.save().then((res) => {
+					onChange({target: {name, value: JSON.stringify(res)}});
+				});
+			}, 200);
           }}
           tools={{...requiredTools, ...customTools, ...customImageTool}}
           instanceRef={instance => setEditorInstance(instance)}
